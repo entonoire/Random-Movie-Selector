@@ -8,9 +8,9 @@ from os.path import isfile, join
 
 if len(argv) < 3:
 	print("")
-	print("usage: <imbDB api key> <providers> <true | false, has personnal_movie (should be in the same file as the program)> [log]")
+	print("usage: <imbDB api key> <providers> <true | false, has personnal_movie (should be in the same file as the program)> <lang> [log]")
 	print("providers example: Disney_Plus-Amazon_Prime_Video ...")
-	print("can be requested with: https://api.themoviedb.org/3/watch/providers/movie?language=fr-FR&watch_region=Fr&api_key=key")
+	print("can be requested with: https://api.themoviedb.org/3/watch/providers/movie?language=lang&watch_region=region&api_key=key")
 	print("")
 	# Disney_Plus-Amazon_Prime_Video-Sixplay-France_TV-Arte-TF1-Amazon_Video
 	exit()
@@ -18,7 +18,8 @@ if len(argv) < 3:
 key = argv[1]
 providers = argv[2].replace("_", " ").split("-") #https://api.themoviedb.org/3/watch/providers/movie?language=fr-FR&watch_region=Fr&api_key={key}
 personnal_movie = (len(argv) >= 4 and argv[3] == "true")
-log_option = (len(argv) == 5 and argv[4] == "log")
+lang = args[4]
+log_option = (len(argv) == 6 and argv[5] == "log")
 
 def log(value):
 	if log_option == True:
@@ -26,7 +27,7 @@ def log(value):
 
 def discover(page):
 	return get(
-		f"https://api.themoviedb.org/3/discover/movie?page={page}&language=fr&api_key={key}", 
+		f"https://api.themoviedb.org/3/discover/movie?page={page}&language={lang}&api_key={key}", 
 		headers={"accept": "application/json"}
 	)
 
